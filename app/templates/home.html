@@ -1,0 +1,202 @@
+{% extends "base.html" %} {% block css %}{% endblock %} {% block main %}
+<div class="relative z-10 container mx-auto px-4 min-h-screen">
+    <div class="flex flex-wrap items-center -m-6 pt-32 pb-24">
+        <div class="w-full lg:w-1/2 p-6">
+            <div class="lg:max-w-xl">
+                <h1
+                    class="mb-8 font-heading text-8xl md:text-10xl text-gray-900 font-bold"
+                >
+                    Detect and Classify Brain-Tumor
+                </h1>
+                <p class="mb-10 text-gray-600 text-xl">
+                    This solution makes use of an advanced customized deep
+                    learning model, that allows the prediction of glioma,
+                    meningioma, and pituitary tumors.
+                </p>
+                <div class="flex flex-wrap -m-2.5 mb-20">
+                    <div class="w-auto p-2.5">
+                        <a href="#"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full lg:w-1/2 pt-0 text-right flex justify-end" style="align-items: start;">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40%"
+                height="40%"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-brain"
+            >
+                <path
+                    d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"
+                />
+                <path
+                    d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"
+                />
+                <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+                <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
+                <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
+                <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
+                <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
+                <path d="M6 18a4 4 0 0 1-1.967-.516" />
+                <path d="M19.967 17.484A4 4 0 0 1 18 18" />
+            </svg>
+        </div>
+    </div>
+</div>
+<img
+    class="absolute bottom-0 left-0"
+    src="/static/gradia-assets/elements/hero/gradient.png"
+/>
+
+<div
+    class="w-full"
+    style="
+        display: flex;
+        justify-content: space-evenly;
+        padding: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    "
+>
+    <div
+        id="how-it-works"
+        class="w-full bg-white rounded-lg shadow-lg"
+        style="padding: 20px; margin: 6px"
+    >
+        <h1
+            class="mb-8 font-heading text-4xl md:text-6xl text-gray-900 font-bold"
+        >
+            How it works?
+        </h1>
+        <div class="mb-2 text-gray-600">
+            A deep learning model used to predict and classify
+            brain tumors. The model is trained on a dataset of MRI images of the
+            brain. It is able to predict and classify <strong>glioma, meningioma,
+            and pituitary</strong> tumors.
+        </div>
+        <div class="mb-2 text-gray-600">
+            In order to predict and classify brain tumors, you would need to upload
+            MRI image(s) of the brain. The model will then analyze the image(s) and
+            provide you with the prediction and classification of the brain
+            tumor. If no tumor is detected, the model will provide you with a
+            negative result.
+        </div>
+        <div class="mb-10 text-gray-600">
+            If you have any questions or need help, please feel free to contact
+            us.
+        </div>
+        <h1
+            id="credits"
+            class="mb-8 font-heading text-4xl md:text-6xl text-gray-900 font-bold"
+        >
+            Credits
+        </h1>
+        <p class="mb-2 text-gray-600">
+            This solution is developed by <b>Lijadu Obafunmilayo Samuel</b> as
+            part of the requirements for the award of the degree of <b>Bachelor of
+            Engineering in Electrical Electronics Engineering</b> at the Federal
+            University of Technology, Akure (<strong>FUTA</strong>).
+        </p>
+    </div>
+    <form
+        id="predict"
+        hx-encoding="multipart/form-data"
+        hx-post="/predict"
+        class="w-full bg-white rounded-lg shadow-lg"
+        style="padding: 20px; margin: 6px"
+    >
+        <div class="lg:max-w-xl">
+            <h1
+                class="mb-8 font-heading text-4xl md:text-6xl text-gray-900 font-bold"
+            >
+                Upload MRI Images
+            </h1>
+            <p class="mb-10 text-gray-600">
+                Upload MRI images to detect and classify brain tumors.
+            </p>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm text-gray-900 mb-3"></label>
+                MRI Image to Check
+            </label>
+            <div
+                class="p-px bg-gradient-cyan focus-within:ring-4 focus-within:ring-indigo-500 rounded-lg"
+            >
+                <input
+                    name="image"
+                    class="w-full px-6 py-4 placeholder-gray-500 text-base text-gray-500 bg-white outline-none rounded-lg"
+                    type="file"
+                    multiple
+                />
+            </div>
+        </div>
+        <button
+            class="inline-block group p-0.5 font-heading text-base text-gray-900 font-bold bg-white hover:bg-gray-50 bg-gradient-cyan overflow-hidden rounded-md"
+            type="submit"
+        >
+            <div class="relative py-4 px-9 bg-white rounded">
+                <span class="relative z-10">Submit</span>
+            </div>
+        </button>
+    </form>
+
+    <div
+        class="w-full flex bg-white items-center p-8 rounded-lg shadow-lg"
+        style="padding: 20px; margin: 6px"
+    >
+        <script data-sil-id="67035378887737001e5d25d6">
+            var loadWidget = function () {
+                var d = document,
+                    w = window,
+                    l = window.location,
+                    p = l.protocol == "file:" ? "http://" : "//";
+                if (!w.WS) w.WS = {};
+                c = w.WS;
+                var m = function (t, o) {
+                    var e = d.getElementsByTagName("script");
+                    e = e[e.length - 1];
+                    var n = d.createElement(t);
+                    if (t == "script") {
+                        n.async = true;
+                    }
+                    for (k in o) n[k] = o[k];
+                    e.parentNode.insertBefore(n, e);
+                };
+                m("script", {
+                    src:
+                        p +
+                        "bawkbox.com/widget/star-rating/67035378887737001e5d25d6?page=" +
+                        encodeURIComponent(l + ""),
+                    type: "text/javascript",
+                });
+                c.load_net = m;
+            };
+            if (window.Squarespace) {
+                document.addEventListener("DOMContentLoaded", loadWidget);
+                setTimeOut(function () {
+                    document.addEventListener("DOMContentLoaded", loadWidget);
+                }, 3000);
+            } else {
+                loadWidget();
+            }
+        </script>
+        <script
+            type="application/ld+json"
+            src="/widget/star-rating/67035378887737001e5d25d6/microdata"
+        ></script>
+        <div
+            class="sil-widget-star-rating sil-widget"
+            id="sil-widget-67035378887737001e5d25d6"
+        >
+            <a href="//bawkbox.com/install/star-rating">Patient Reviews</a>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block js %}{% endblock %}

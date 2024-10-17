@@ -1,0 +1,42 @@
+<div class="mb-10">
+    {% if result|length > 0 %} {% for data in result %}
+    <br />{% if data['has_tumor'] %}
+    <div class="mb-2 text-gray-600">
+        <img
+            src="{{ data['b64_image'] }}"
+            alt="MRI Image"
+            class="w-full h-auto"
+            style="width: 200px; height: 150px"
+        />
+        <br />
+        <strong>Image {{ data['id'] }}:</strong> The MRI image submitted shows
+        signs of a <strong>{{ data['predicted_tumor']['label'] }}</strong> brain
+        tumor.
+        <br />
+        <strong>Confidence Score:</strong> {{ data['predicted_tumor']['score']
+        }}%
+    </div>
+    {% else %}
+    <div class="mb-2 text-gray-600">
+        <img
+            src="{{ data['b64_image'] }}"
+            alt="MRI Image"
+            class="w-full h-auto"
+            style="width: 200px; height: 150px"
+        />
+        <br />
+        <strong>Image {{ data['id'] }}:</strong> The MRI image submitted shows
+        no signs of any abnormalities or brain tumor.
+    </div>
+    {% endif %} {% endfor %} {% else %} The MRI images submitted shows no signs
+    of any abnormalities or brain tumor. {% endif %}
+</div>
+
+<a
+    href="/"
+    class="inline-block group p-0.5 font-heading text-base text-gray-900 font-bold bg-white hover:bg-gray-50 bg-gradient-cyan overflow-hidden rounded-md"
+>
+    <div class="relative py-4 px-9 bg-white rounded">
+        <span class="relative z-10">Test new Images</span>
+    </div>
+</a>
