@@ -5,14 +5,14 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
-import cv2
-import numpy as np
-import imutils
-import tensorflow as tf
+import joblib
+import pandas as pd
 from app import app
 from flask import flash, render_template, request
-import base64
 
+model_dt = joblib.load("app/models/model_dt.joblib")
+model_rfr = joblib.load("app/models/model_rfr.joblib")
+scaler = joblib.load("app/models/scaler.joblib")
 
 ###
 # Routing for your application.
@@ -35,110 +35,40 @@ def about():
 # API routes, should return html
 ###
 
-LABELS = ["Pituitary Tumor", "Glioma Tumor", "Meningioma Tumor", "No Tumor"]
-
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    print("starting prediction")
-    if "image" not in request.files:
-        print(f"No file part: {request.files}")
-        return render_template("predict.html", error="No file part")
+    # collect data from form
+    Year = request.form["Year"]
+    average_rain_fall_mm_per_year = request.form["average_rain_fall_mm_per_year"]
+    Pesticides_Value_Tonnes = request.form["Pesticides_Value_Tonnes"]
+    avg_temp = request.form["avg_temp"]
+    Land_Area_ha = request.form["Land_Area_ha"]
+    avg_population = request.form["avg_population"]
 
-    img_files = request.files.getlist("image")
-    result = []
+    data = {
+        "Year": Year,
+        "average_rain_fall_mm_per_year": average_rain_fall_mm_per_year,
+        "Pesticides_Value_Tonnes": Pesticides_Value_Tonnes,
+        "avg_temp": avg_temp,
+        "Land_Area_ha": Land_Area_ha,
+        "avg_population": avg_population,
+    }
 
-    for img_file in img_files:
-        img_buffer = img_file.read()
-        img_array = np.frombuffer(img_buffer, np.uint8)  # Read image data
-        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+    df2 = pd.DataFrame(data, index=[0])
+    df_scaled2 = scaler.transform(df2)
 
-        detection_img_array = preprocess_image(img)
-
-        # Detect if has tumor
-        tumor_value = detection_model.predict(detection_img_array)[0][0]
-        has_tumor = round(tumor_value) == 1
-
-        predicted_tumor = None
-
-        # Encode the image data as base64
-        _, img_encoded = cv2.imencode(".jpg", img)  # Encode image as JPG
-        b64_image = base64.b64encode(img_encoded).decode("utf-8")
-        b64_image = f"data:image/jpeg;base64,{b64_image}"  # Create
-
-        if has_tumor:
-            classification_img_array = preprocess_image(img, target_size=(224, 224))
-            predicted_tumor = classification_model.predict(classification_img_array)
-            predicted_class = np.argmax(predicted_tumor, axis=1)[0]
-            prediction_confidence = predicted_tumor[0][predicted_class]
-
-            result.append(
-                {
-                    "id": len(result) + 1,
-                    "has_tumor": True,
-                    "b64_image": b64_image,
-                    "predicted_tumor": {
-                        "label": LABELS[predicted_class],
-                        "score": round(tumor_value * 100, 1),
-                    },
-                }
-            )
-        else:
-            result.append(
-                {
-                    "id": len(result) + 1,
-                    "b64_image": b64_image,
-                    "has_tumor": False,
-                    "predicted_tumor": None,
-                }
-            )
+    prediction = model_dt.predict(df_scaled2)
 
     return render_template(
         "predict.html",
-        result=result,
+        result=prediction,
     )
 
 
 ###
 # The functions below should be applicable to all Flask apps.
 ###
-
-
-def crop_img(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    gray = cv2.GaussianBlur(gray, (3, 3), 0)
-
-    # threshold the image, then perform a series of erosions +
-    # dilations to remove any small regions of noise
-    thresh = cv2.threshold(gray, 45, 255, cv2.THRESH_BINARY)[1]
-    thresh = cv2.erode(thresh, None, iterations=2)
-    thresh = cv2.dilate(thresh, None, iterations=2)
-
-    # find contours in thresholded image, then grab the largest one
-    cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    cnts = imutils.grab_contours(cnts)
-    c = max(cnts, key=cv2.contourArea)
-
-    # find the extreme points
-    extLeft = tuple(c[c[:, :, 0].argmin()][0])
-    extRight = tuple(c[c[:, :, 0].argmax()][0])
-    extTop = tuple(c[c[:, :, 1].argmin()][0])
-    extBot = tuple(c[c[:, :, 1].argmax()][0])
-    ADD_PIXELS = 0
-    new_img = img[
-        extTop[1] - ADD_PIXELS : extBot[1] + ADD_PIXELS,
-        extLeft[0] - ADD_PIXELS : extRight[0] + ADD_PIXELS,
-    ].copy()
-
-    return new_img
-
-
-def preprocess_image(img, target_size=(256, 256)):
-    new_img = crop_img(img)
-    new_img = cv2.resize(new_img, target_size, interpolation=cv2.INTER_CUBIC)
-    new_img = new_img / 255.0
-    img_array = np.expand_dims(new_img, axis=0)
-    return img_array
 
 
 # Display Flask WTF errors as Flash messages
