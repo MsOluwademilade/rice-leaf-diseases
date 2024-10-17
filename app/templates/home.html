@@ -31,13 +31,51 @@
                     </p>
                 </div>
                 <div class="mb-6">
-                    <label class="block text-sm text-gray-900 mb-3"></label>
-                    MRI Image to Check
-                    </label>
+                    <label class="block text-sm text-gray-900 mb-3">Year</label>
                     <div class="p-px bg-gradient-cyan focus-within:ring-4 focus-within:ring-indigo-500 rounded-lg">
-                        <input name="image"
+                        <input name="Year"
                             class="w-full px-6 py-4 placeholder-gray-500 text-base text-gray-500 bg-white outline-none rounded-lg"
-                            type="file" multiple />
+                            type="number" required />
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-900 mb-3">Average Rainfall (mm per year)</label>
+                    <div class="p-px bg-gradient-cyan focus-within:ring-4 focus-within:ring-indigo-500 rounded-lg">
+                        <input name="average_rain_fall_mm_per_year"
+                            class="w-full px-6 py-4 placeholder-gray-500 text-base text-gray-500 bg-white outline-none rounded-lg"
+                            type="number" step="0.01" required />
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-900 mb-3">Pesticides Value (Tonnes)</label>
+                    <div class="p-px bg-gradient-cyan focus-within:ring-4 focus-within:ring-indigo-500 rounded-lg">
+                        <input name="Pesticides_Value_Tonnes"
+                            class="w-full px-6 py-4 placeholder-gray-500 text-base text-gray-500 bg-white outline-none rounded-lg"
+                            type="number" step="0.01" required />
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-900 mb-3">Average Temperature</label>
+                    <div class="p-px bg-gradient-cyan focus-within:ring-4 focus-within:ring-indigo-500 rounded-lg">
+                        <input name="avg_temp"
+                            class="w-full px-6 py-4 placeholder-gray-500 text-base text-gray-500 bg-white outline-none rounded-lg"
+                            type="number" step="0.01" required />
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-900 mb-3">Land Area (ha)</label>
+                    <div class="p-px bg-gradient-cyan focus-within:ring-4 focus-within:ring-indigo-500 rounded-lg">
+                        <input name="Land_Area_ha"
+                            class="w-full px-6 py-4 placeholder-gray-500 text-base text-gray-500 bg-white outline-none rounded-lg"
+                            type="number" step="0.01" required />
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-900 mb-3">Average Population</label>
+                    <div class="p-px bg-gradient-cyan focus-within:ring-4 focus-within:ring-indigo-500 rounded-lg">
+                        <input name="avg_population"
+                            class="w-full px-6 py-4 placeholder-gray-500 text-base text-gray-500 bg-white outline-none rounded-lg"
+                            type="number" required />
                     </div>
                 </div>
                 <button
