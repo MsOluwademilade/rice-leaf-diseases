@@ -5,14 +5,12 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
-import joblib
 import pandas as pd
 from app import app
+import tensorflow as tf
 from flask import flash, render_template, request
 
-model_dt = joblib.load("app/models/model_dt.joblib")
-model_rfr = joblib.load("app/models/model_rfr.joblib")
-scaler = joblib.load("app/models/scaler.joblib")
+rice_model = tf.keras.models.load_model('app/models/vgg16_rice_model.h5')
 
 ###
 # Routing for your application.
@@ -55,10 +53,7 @@ def predict():
         "avg_population": avg_population,
     }
 
-    df2 = pd.DataFrame(data, index=[0])
-    df_scaled2 = scaler.transform(df2)
-
-    prediction = model_dt.predict(df_scaled2)
+    prediction = rice_model.predict(data)
 
     return render_template(
         "predict.html",
