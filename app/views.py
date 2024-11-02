@@ -60,6 +60,8 @@ def predict():
         rice_disease_value = rice_model.predict(detection_img_array)[0][0]
         has_rice_disease = round(rice_disease_value) == 1
 
+        print(f"predition value: {float(rice_disease_value)} {float(has_rice_disease)}")
+
         # Encode the image data as base64
         _, img_encoded = cv2.imencode(".jpg", img)  # Encode image as JPG
         b64_image = base64.b64encode(img_encoded).decode("utf-8")
@@ -72,7 +74,7 @@ def predict():
                     "has_rice_disease": True,
                     "b64_image": b64_image,
                     "predicted_rice_disease": {
-                        "label": LABELS[rice_disease_value],
+                        "label": LABELS[int(rice_disease_value)],
                         "score": round(rice_disease_value * 100, 1),
                     },
                 }
