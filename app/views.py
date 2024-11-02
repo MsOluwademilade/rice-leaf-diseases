@@ -127,7 +127,7 @@ def crop_img(img):
     return new_img
 
 
-def preprocess_image(img, target_size=(256, 256)):
+def preprocess_image(img, target_size=(150, 150)):
     new_img = crop_img(img)
     new_img = cv2.resize(new_img, target_size, interpolation=cv2.INTER_CUBIC)
     new_img = new_img / 255.0
