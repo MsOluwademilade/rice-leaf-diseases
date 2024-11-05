@@ -57,10 +57,15 @@ def predict():
         detection_img_array = preprocess_image(img)
 
         # Detect if has rice_disease
-        rice_disease_value = rice_model.predict(detection_img_array)[0][0]
-        has_rice_disease = round(rice_disease_value) == 1
-
-        print(f"predition value: {float(rice_disease_value)} {float(has_rice_disease)}")
+        rice_disease_options = rice_model.predict(detection_img_array)[0]
+        bacterial_blight, leaf_blast, brown_spot, tungro, healthy = rice_disease_options
+        has_rice_disease = (
+            bacterial_blight > 0.5
+            or leaf_blast > 0.5
+            or brown_spot > 0.5
+            or tungro > 0.5
+        )
+        rice_disease_value = max(bacterial_blight, leaf_blast, brown_spot, tungro)
 
         # Encode the image data as base64
         _, img_encoded = cv2.imencode(".jpg", img)  # Encode image as JPG
@@ -74,7 +79,7 @@ def predict():
                     "has_rice_disease": True,
                     "b64_image": b64_image,
                     "predicted_rice_disease": {
-                        "label": LABELS[int(rice_disease_value)],
+                        "label": LABELS[np.argmax(rice_disease_options)],
                         "score": round(rice_disease_value * 100, 1),
                     },
                 }
