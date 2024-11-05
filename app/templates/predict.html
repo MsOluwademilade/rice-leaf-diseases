@@ -6,9 +6,9 @@
         <br />
         <strong>Image {{ data['id'] }}:</strong> The image submitted shows
         signs of a <strong>{{ data['predicted_rice_disease']['label'] }}</strong>
-        rice_disease.
+        rice disease.
         <br />
-        <strong>Confidence Score:</strong> {{ data['predicted_rice_disease']['score']
+        <strong>Prediction Confidence:</strong> {{ data['predicted_rice_disease']['score']
         }}%
     </div>
     {% else %}
@@ -16,15 +16,14 @@
         <img src="{{ data['b64_image'] }}" alt="MRI Image" class="w-full h-auto" style="width: 200px; height: 150px" />
         <br />
         <strong>Image {{ data['id'] }}:</strong> The image submitted shows
-        no signs of any abnormalities.
+        no signs of rice leaf disease.
     </div>
-    {% endif %} {% endfor %} {% else %} The images submitted shows no signs
-    of any abnormalities. {% endif %}
+    {% endif %} {% endfor %} {% else %} The images submitted shows no signs of rice leaf disease. {% endif %}
 </div>
 
 <a href="/"
     class="inline-block group p-0.5 font-heading text-base text-gray-900 font-bold bg-white hover:bg-gray-50 bg-gradient-cyan overflow-hidden rounded-md">
-    <div class="relative py-4 px-9 bg-white rounded">
+    <div class="relative py-4 px-9 bg-white rounded w-full">
         <span class="relative z-10">Try again</span>
     </div>
 </a>
