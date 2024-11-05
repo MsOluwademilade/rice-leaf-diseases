@@ -58,7 +58,7 @@ def predict():
 
         # Detect if has rice_disease
         rice_disease_options = rice_model.predict(detection_img_array)[0]
-        bacterial_blight, leaf_blast, brown_spot, tungro, healthy = rice_disease_options
+        bacterial_blight, leaf_blast, brown_spot, healthy, tungro = rice_disease_options
         has_rice_disease = (
             bacterial_blight > 0.5
             or leaf_blast > 0.5
